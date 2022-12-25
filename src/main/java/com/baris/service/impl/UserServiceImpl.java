@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     public User updateUser(Long id, User user) {
         final Optional<User> resultUser = userRepository.findById(id);
 
-        if(resultUser.isPresent()) {
+        if (resultUser.isPresent()) {
             resultUser.get().setFirstName(user.getFirstName());
             resultUser.get().setLastName(user.getLastName());
             resultUser.get().setUpdatedAt(new Date());
@@ -47,5 +47,17 @@ public class UserServiceImpl implements UserService {
         }
 
         return null;
+    }
+
+    @Override
+    public Boolean deleteUser(Long id) {
+        final Optional<User> user = userRepository.findById(id);
+
+        if (user.isPresent()) {
+            userRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
     }
 }

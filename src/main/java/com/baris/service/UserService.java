@@ -1,4 +1,11 @@
 package com.baris.service;
 
+import com.baris.entity.User;
+
+import java.util.List;
+
 public interface UserService {
+    User createUser(User user);
+    List<User> getUsers();
+    User getUserById(long id);
 }

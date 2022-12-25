@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class User extends BaseEntity {
     @Id
     @SequenceGenerator(name ="user_sec_gen", sequenceName = "user_gen", initialValue = 100, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "uger_sec_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sec_gen")
     long id;
     @Column(name = "ISIM",length = 100)
     private String firstName;

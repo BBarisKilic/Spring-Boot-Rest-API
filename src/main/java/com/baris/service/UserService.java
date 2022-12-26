@@ -4,6 +4,7 @@ import com.baris.dto.UserDto;
 import com.baris.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ public interface UserService {
     UserDto getUserById(Long id);
     Page<User> getUserByPage(int page, int size);
     Page<User> getUserByPage(Pageable pageable);
+    Slice<User> getUserSlice(Pageable pageable);
     UserDto updateUser(Long id, UserDto userDto);
     Boolean deleteUser(Long id);
 }

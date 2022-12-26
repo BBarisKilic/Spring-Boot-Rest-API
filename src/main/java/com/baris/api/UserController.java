@@ -6,6 +6,7 @@ import com.baris.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +45,12 @@ public class UserController {
     @GetMapping("/getByPage/v1")
     public ResponseEntity<Page<User>> getUserByPage(Pageable pageable) {
         final Page<User> resultUser = userService.getUserByPage(pageable);
+        return ResponseEntity.ok(resultUser);
+    }
+
+    @GetMapping("/getSlice")
+    public ResponseEntity<Slice<User>> getUserSlice(Pageable pageable) {
+        final Slice<User> resultUser = userService.getUserSlice(pageable);
         return ResponseEntity.ok(resultUser);
     }
 

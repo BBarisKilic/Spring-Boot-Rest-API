@@ -1,5 +1,6 @@
 package com.baris.service.impl;
 
+import com.baris.advice.UserNotFoundException;
 import com.baris.dto.UserDto;
 import com.baris.entity.User;
 import com.baris.repository.UserRepository;
@@ -46,9 +47,11 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserById(Long id) {
         final Optional<User> user = userRepository.findById(id);
 
-        return user
-                .map(value -> modelMapper.map(value, UserDto.class))
-                .orElse(null);
+        if(user.isPresent()) {
+            return modelMapper.map(user.get(), UserDto.class);
+        }
+
+        throw new UserNotFoundException("Kullanici bulunamadi");
     }
 
     @Override
@@ -87,7 +90,7 @@ public class UserServiceImpl implements UserService {
             return modelMapper.map(userRepository.save(user.get()), UserDto.class);
         }
 
-        return null;
+        throw new UserNotFoundException("Kullanici bulunamadi");
     }
 
     @Override

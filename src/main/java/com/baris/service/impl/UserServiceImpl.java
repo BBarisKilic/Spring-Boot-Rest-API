@@ -56,6 +56,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> getUserByPage(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    @Override
     public UserDto updateUser(Long id, UserDto userDto) {
         final Optional<User> user = userRepository.findById(id);
 

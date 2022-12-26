@@ -1,49 +1,60 @@
 package com.baris.service.impl;
 
+import com.baris.dto.UserDto;
 import com.baris.entity.User;
 import com.baris.repository.UserRepository;
 import com.baris.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Override
-    public User createUser(User user) {
+    public UserDto createUser(UserDto userDto) {
+        final User user = modelMapper.map(userDto, User.class);
         user.setCreationDate(new Date());
         user.setCreatedBy("Admin");
-        return userRepository.save(user);
+        return modelMapper.map(userRepository.save(user), UserDto.class);
     }
 
     @Override
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getUsers() {
+        final List<User> users = userRepository.findAll();
+        return users
+                .stream()
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public User getUserById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.orElse(null);
+    public UserDto getUserById(Long id) {
+        final Optional<User> user = userRepository.findById(id);
 
+        return user
+                .map(value -> modelMapper.map(value, UserDto.class))
+                .orElse(null);
     }
 
     @Override
-    public User updateUser(Long id, User user) {
-        final Optional<User> resultUser = userRepository.findById(id);
+    public UserDto updateUser(Long id, UserDto userDto) {
+        final Optional<User> user = userRepository.findById(id);
 
-        if (resultUser.isPresent()) {
-            resultUser.get().setFirstName(user.getFirstName());
-            resultUser.get().setLastName(user.getLastName());
-            resultUser.get().setUpdatedAt(new Date());
-            resultUser.get().setUpdatedBy("Admin");
-            return userRepository.save(resultUser.get());
+        if (user.isPresent()) {
+            user.get().setFirstName(userDto.getFirstName());
+            user.get().setLastName(userDto.getLastName());
+            user.get().setUpdatedAt(new Date());
+            user.get().setUpdatedBy("Admin");
+            return modelMapper.map(userRepository.save(user.get()), UserDto.class);
         }
 
         return null;

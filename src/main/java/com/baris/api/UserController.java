@@ -1,6 +1,6 @@
 package com.baris.api;
 
-import com.baris.entity.User;
+import com.baris.dto.UserDto;
 import com.baris.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,27 +15,27 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        final User resultUser = userService.createUser(user);
-        return ResponseEntity.ok(resultUser);
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+        final UserDto resultUserDto = userService.createUser(userDto);
+        return ResponseEntity.ok(resultUserDto);
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<User>> getUsers() {
-        final List<User> resultUsers = userService.getUsers();
-        return ResponseEntity.ok(resultUsers);
+    public ResponseEntity<List<UserDto>> getUsers() {
+        final List<UserDto> resultUserDtos = userService.getUsers();
+        return ResponseEntity.ok(resultUserDtos);
     }
 
     @GetMapping("/getById/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-        final User resultUser = userService.getUserById(id);
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
+        final UserDto resultUser = userService.getUserById(id);
         return ResponseEntity.ok(resultUser);
     }
 
     @PutMapping("/updateById/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
-        final User resultUser = userService.updateUser(id, user);
-        return ResponseEntity.ok(resultUser);
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @RequestBody UserDto userDto) {
+        final UserDto resultUserDto = userService.updateUser(id, userDto);
+        return ResponseEntity.ok(resultUserDto);
     }
 
     @DeleteMapping("/removeById/{id}")

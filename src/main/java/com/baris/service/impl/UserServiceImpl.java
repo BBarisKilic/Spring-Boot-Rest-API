@@ -4,6 +4,7 @@ import com.baris.dto.UserDto;
 import com.baris.entity.User;
 import com.baris.repository.UserRepository;
 import com.baris.service.UserService;
+import com.baris.util.CustomPage;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +66,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Slice<User> getUserSlice(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public CustomPage<User, UserDto> getUserCustomPage(Pageable pageable) {
+        final Page<User> data = userRepository.findAll(pageable);
+        final UserDto[] dtos = modelMapper.map(data.getContent(), UserDto[].class);
+        return new CustomPage<>(data, Arrays.asList(dtos));
     }
 
     @Override

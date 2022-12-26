@@ -3,6 +3,7 @@ package com.baris.api;
 import com.baris.dto.UserDto;
 import com.baris.entity.User;
 import com.baris.service.UserService;
+import com.baris.util.CustomPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,6 +52,12 @@ public class UserController {
     @GetMapping("/getSlice")
     public ResponseEntity<Slice<User>> getUserSlice(Pageable pageable) {
         final Slice<User> resultUser = userService.getUserSlice(pageable);
+        return ResponseEntity.ok(resultUser);
+    }
+
+    @GetMapping("/getCustomPage")
+    public ResponseEntity<CustomPage<User, UserDto>> getUserCustomPage(Pageable pageable) {
+        final CustomPage<User, UserDto> resultUser = userService.getUserCustomPage(pageable);
         return ResponseEntity.ok(resultUser);
     }
 

@@ -1,8 +1,10 @@
 package com.baris.api;
 
 import com.baris.dto.UserDto;
+import com.baris.entity.User;
 import com.baris.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +31,12 @@ public class UserController {
     @GetMapping("/getById/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
         final UserDto resultUser = userService.getUserById(id);
+        return ResponseEntity.ok(resultUser);
+    }
+
+    @GetMapping("/getByPage")
+    public ResponseEntity<Page<User>> getUserByPage(@RequestParam int currentPage, @RequestParam int pageSize) {
+        final Page<User> resultUser = userService.getUserByPage(currentPage, pageSize);
         return ResponseEntity.ok(resultUser);
     }
 

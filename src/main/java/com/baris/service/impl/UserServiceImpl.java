@@ -6,6 +6,9 @@ import com.baris.repository.UserRepository;
 import com.baris.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -43,6 +46,13 @@ public class UserServiceImpl implements UserService {
         return user
                 .map(value -> modelMapper.map(value, UserDto.class))
                 .orElse(null);
+    }
+
+    @Override
+    public Page<User> getUserByPage(int page, int size) {
+        final Pageable pageable = PageRequest.of(page, size);
+
+        return userRepository.findAll(pageable);
     }
 
     @Override
